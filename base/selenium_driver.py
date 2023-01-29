@@ -72,7 +72,6 @@ class SeleniumDriver():
 
     def getElementList(self, locator, locatorType="id"):
         """
-        NEW METHOD
         Get list of elements
         """
         element = None
@@ -122,7 +121,6 @@ class SeleniumDriver():
 
     def getText(self, locator="", locatorType="id", element=None, info=""):
         """
-        NEW METHOD
         Get 'Text' on an element
         Either provide element or a combination of locator and locatorType
         """
@@ -147,7 +145,6 @@ class SeleniumDriver():
 
     def isElementPresent(self, locator="", locatorType="id", element=None):
         """
-        Check if element is present -> MODIFIED
         Either provide element or a combination of locator and locatorType
         """
         try:
@@ -167,7 +164,6 @@ class SeleniumDriver():
 
     def isElementDisplayed(self, locator="", locatorType="id", element=None):
         """
-        NEW METHOD
         Check if element is displayed
         Either provide element or a combination of locator and locatorType
         """
@@ -226,7 +222,7 @@ class SeleniumDriver():
 
     def webScroll(self, direction="up"):
         """
-        NEW METHOD
+        Scroll WebPage
         """
         if direction == "up":
             # Scroll Up
