@@ -9,7 +9,7 @@ import time
 import os
 
 
-class SeleniumDriver():
+class SeleniumDriver:
     log = cl.customLogger(logging.DEBUG)
 
     def __init__(self, driver):
@@ -88,7 +88,7 @@ class SeleniumDriver():
 
     def elementClick(self, locator="", locatorType="id", element=None):
         """
-        Click on an element -> MODIFIED
+        Click on an element
         Either provide element or a combination of locator and locatorType
         """
         try:
@@ -104,7 +104,7 @@ class SeleniumDriver():
 
     def sendKeys(self, data, locator="", locatorType="id", element=None):
         """
-        Send keys to an element -> MODIFIED
+        Send keys to an element
         Either provide element or a combination of locator and locatorType
         """
         try:
@@ -219,6 +219,25 @@ class SeleniumDriver():
             self.log.info("Element not appeared on the web page")
             print_stack()
         return element
+
+    def waitForElements(self, locator, locatorType="id",
+                       timeout=10, pollFrequency=0.5):
+        elements = None
+        try:
+            byType = self.getByType(locatorType)
+            self.log.info("Waiting for maximum :: " + str(timeout) +
+                          " :: seconds for element to be clickable")
+            wait = WebDriverWait(self.driver, timeout=timeout,
+                                 poll_frequency=pollFrequency,
+                                 ignored_exceptions=[NoSuchElementException,
+                                                     ElementNotVisibleException,
+                                                     ElementNotSelectableException])
+            elements = wait.until(EC.presence_of_all_elements_located((byType, locator)))
+            self.log.info("Elements appeared on the web page")
+        except:
+            self.log.info("Elements not appeared on the web page")
+            print_stack()
+        return elements
 
     def webScroll(self, direction="up"):
         """

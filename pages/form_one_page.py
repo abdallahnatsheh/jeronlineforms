@@ -33,12 +33,6 @@ class FormOnePage(BasePage):
 
     def get_dropdown_list(self, input_field):
         return self.getElementList(input_field['Value_list'], input_field['By'])
-        # try:
-        #   by, value = (input_field['By'], input_field['Value_list'])
-        #  return WebDriverWait(self.driver, 1).until(EC.presence_of_all_elements_located((by, value)))
-        # except:
-        #   utils.printError(f"error locating  {str(input_field)}")
-        #  return None
 
     def click_dropdown(self, input_field):
         self.elementClick(input_field['Value'], input_field['By'])
@@ -50,8 +44,9 @@ class FormOnePage(BasePage):
         for item in items:
             if item.text == str(number):
                 item.click()
-                break
+                return True
         else:
             self.click_dropdown(input_field)
             self.log.error("No matching item found with dropdown locator : " + input_field['Value_list'] +
-                          " and  locatorType: " + input_field['By'] + "for number : " + number)
+                           " and  locatorType: " + input_field['By'] + "for number : " + number)
+            return False

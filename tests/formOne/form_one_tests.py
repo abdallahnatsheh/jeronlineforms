@@ -47,82 +47,76 @@ class FormOneTests(unittest.TestCase):
 
     @pytest.mark.run(order=4)
     def test_form_cell_phone_dropdown(self):
-        self.fo.select_listbox_item(self.fo.cell_phone_dropdown, "057")
-        self.fo.select_listbox_item(self.fo.cell_phone_dropdown, "072")
-        self.fo.select_listbox_item(self.fo.cell_phone_dropdown, "077")
+        result1 = self.fo.select_listbox_item(self.fo.cell_phone_dropdown, "057")
+        self.ts.mark(result1, "cellphone dropdown number (supposed valid)")
 
-        # personal_info_form.select_listbox_item(personal_info_form.phone_number_field_dropdown, "02")
-        # personal_info_form.select_listbox_item(personal_info_form.phone_number_field_dropdown, "072")
-        # personal_info_form.select_listbox_item(personal_info_form.phone_number_field_dropdown, "000")
+        result2 = self.fo.select_listbox_item(self.fo.cell_phone_dropdown, "072")
+        self.ts.mark(result2, "cellphone dropdown number (supposed not valid)")
+
+    @pytest.mark.run(order=5)
+    def test_form_email__input(self):
+        email_examples = [
+            "test@example.",
+            "test@éxample.com",
+            "test@example..com",
+            "test@example.c om",
+            "test@example.c@m",
+            "test@example.c om",
+            "test@.com",
+            "test@example.com.",
+            "test@..com",
+            "test@.example.com",
+            "test@example@example.com",
+            "test@example.c#om",
+            "test@example.c$om",
+            "test@example.c%om",
+            "test@example.c^om",
+            "test@example.c&om",
+            "test@example.c*om",
+            "test@example.c(om",
+            "test@example.c)om",
+            "test@example.c+om",
+            "test@example.c=om",
+            "test@example.c{om",
+            "test@example.c}om",
+            "test@example.c[om",
+            "test@example.c]om",
+            "test@example.c|om",
+            "test@example.c\\om",
+            "test@example.c;om",
+            "test@example.c'om",
+            "test@example.c\"om",
+            "test@example.c<om",
+            "test@example.c>om",
+            "test@example.c,om",
+            "test@example.c.om",
+            "test@example.c/om",
+            "test@example.c?om",
+            "test@example.c~om",
+            "test@example.c`om",
+            "test@example.c!om",
+            "test@example.c@om",
+            "test@example.c#om",
+            "test@example.c$om",
+            "test@example.c%om",
+            "test@example.c^om",
+            "test@example.c&om",
+            "test@example.c*om",
+            "גדככד",
+            "يسبيسبس",
+            "3454354353"
+        ]
+        for email in email_examples:
+            self.fo.write_field(email, self.fo.email_field)
+            result = self.fo.is_not_valid(self.fo.email_field)
+            self.ts.mark(result, f"Email Input ({email}) Verification (supposed not valid)")
+
+        self.fo.write_field("abd@ness.com", self.fo.email_field)
+        result = self.fo.is_valid(self.fo.email_field)
+        self.ts.mark(result, "Email Input Verification (supposed valid)")
 
 
 '''
-def test_form_email__input(driver):
-    base_test = BaseTest(driver)
-    base_test.setUp()
-    personal_info_form = PersonalInfoForm(driver)
-
-    email_examples = [
-        "test@example.",
-        "test@éxample.com",
-        "test@example..com",
-        "test@example.c om",
-        "test@example.c@m",
-        "test@example.c om",
-        "test@.com",
-        "test@example.com.",
-        "test@..com",
-        "test@.example.com",
-        "test@example@example.com",
-        "test@example.c#om",
-        "test@example.c$om",
-        "test@example.c%om",
-        "test@example.c^om",
-        "test@example.c&om",
-        "test@example.c*om",
-        "test@example.c(om",
-        "test@example.c)om",
-        "test@example.c+om",
-        "test@example.c=om",
-        "test@example.c{om",
-        "test@example.c}om",
-        "test@example.c[om",
-        "test@example.c]om",
-        "test@example.c|om",
-        "test@example.c\\om",
-        "test@example.c;om",
-        "test@example.c'om",
-        "test@example.c\"om",
-        "test@example.c<om",
-        "test@example.c>om",
-        "test@example.c,om",
-        "test@example.c.om",
-        "test@example.c/om",
-        "test@example.c?om",
-        "test@example.c~om",
-        "test@example.c`om",
-        "test@example.c!om",
-        "test@example.c@om",
-        "test@example.c#om",
-        "test@example.c$om",
-        "test@example.c%om",
-        "test@example.c^om",
-        "test@example.c&om",
-        "test@example.c*om",
-        "גדככד",
-        "يسبيسبس",
-        "3454354353"
-    ]
-    for email in email_examples:
-        personal_info_form.write_field(email, personal_info_form.email_field)
-        utils.assert_on_result(personal_info_form.is_valid(personal_info_form.email_field), False,
-                               "email supposed to be invalid")
-
-    personal_info_form.write_field("abd@ness.com", personal_info_form.email_field)
-    utils.assert_on_result(personal_info_form.is_valid(personal_info_form.email_field), True,
-                           "email supposed to be valid")
-
-
 def test_form_cell_phone_field(driver):
     base_test = BaseTest(driver)
     base_test.setUp()
